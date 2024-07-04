@@ -5,6 +5,7 @@ Company:CODTECH IT SOLUTIONS
 ID: CT6DA543
 DOMAIN:DATA ANALYTICS
 Duration:June to August 2024
+Mentor:Neela Santosh Kumar
 
 
 OVERVIEW OF PROJECT:

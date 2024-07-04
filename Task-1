@@ -1,0 +1,74 @@
+/*TASK ONE: EXPLORATORY DATA ANALYSIS (EDA)*/
+
+
+import pandas as pd
+
+#Loading Dataset
+train_df = pd.read_csv('/home/yashodeep/Downloads/archive/titanic.csv')
+test_df = pd.read_csv('/home/yashodeep/Downloads/archive/test.csv')
+
+#Display firstnfive rows of dataset
+print("Train Dataset")
+print(train_df.head())
+
+#Display firstnfive rows of dataset
+print("\nTest Dataset")
+print(test_df.head())
+
+# Basic information about the train dataset
+print("Train Dataset Info")
+print(train_df.info())
+
+# Basic information about the test dataset
+print("\nTest Dataset Info")
+print(test_df.info())
+
+# Check for missing values in the train dataset
+print("\nMissing Values in Train Dataset")
+print(train_df.isnull().sum())
+
+# Check for missing values in the test dataset
+print("\nMissing Values in Test Dataset")
+print(test_df.isnull().sum())
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Histograms for numerical columns in the train dataset
+train_df.hist(figsize=(10, 10))
+plt.tight_layout()
+plt.show()
+
+# Boxplots for numerical columns in the train dataset
+numerical_columns = train_df.select_dtypes(include='number').columns
+for column in numerical_columns:
+    plt.figure(figsize=(10, 4))
+    sns.boxplot(data=train_df, y=column)
+    plt.title(f'Boxplot of {column} (Train Dataset)')
+    plt.show()
+
+# Pair plots for numerical columns in the train dataset
+sns.pairplot(train_df.select_dtypes(include='number'))
+plt.show()
+
+# Correlation matrix and heatmap for the train dataset
+correlation_matrix = train_df.corr()
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+plt.title('Correlation Heatmap (Train Dataset)')
+plt.show()
+
+# Identifying outliers using boxplot in the train dataset
+for column in train_df.select_dtypes(include='number').columns:
+    plt.figure(figsize=(10, 4))
+    sns.boxplot(data=train_df, y=column)
+    plt.title(f'Boxplot of {column} (Checking for Outliers)')
+    plt.show()
+
+# Optionally, you can remove outliers in the train dataset using the IQR method
+Q1 = train_df.quantile(0.25)
+Q3 = train_df.quantile(0.75)
+IQR = Q3 - Q1
+train_df_no_outliers = train_df[~((train_df < (Q1 - 1.5 * IQR)) | (train_df > (Q3 + 1.5 * IQR))).any(axis=1)]
+print("Shape of Train Dataset after Removing Outliers")
+print(train_df_no_outliers.shape)
